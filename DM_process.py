@@ -2,19 +2,6 @@ import json
 from mlxtend.preprocessing import TransactionEncoder
 
 def load_dataset():
-    print('Transactions Loading....')
-
-    f = open('transaction.json', 'r')
-    lines = f.readlines()
-    f.close()
-
-    transaction = []
-
-    for line in lines:
-        transaction.append(json.loads(line)['products'])
-
-    print('Transactions Loaded!!')
-
     print('Customers Information Loading....')
 
     f = open('customer.json', 'r')
@@ -39,7 +26,34 @@ def load_dataset():
     day = []
 
     print('Time-Day Information Loaded!!')
-    return transaction, customer, day
+
+    print('Transactions Loading....')
+
+    f = open('transaction.json', 'r')
+    lines = f.readlines()
+    f.close()
+
+    f = open('product.json', 'r')
+    products = json.loads(f.readline())
+    f.close()
+
+    f = open('product_class.json', 'r')
+    product_classes = json.loads(f.readline())
+    f.close()
+
+    transaction = []
+    transaction_detail = []
+
+    for line in lines:
+        transaction.append(json.loads(line)['products'])
+        detail = [product_classes[products[str(x)]['product_class_id']]['product_category'] for x in json.loads(line)['products']]
+        detail.append(days[str(json.loads(line)['time'])]['the_month'])
+        detail.append(customers[str(json.loads(line)['customer'])]['gender'])
+        detail.append(str(customers[str(json.loads(line)['customer'])]['yearly_income']))
+        transaction_detail.append(detail)
+
+    print('Transactions Loaded!!')
+    return transaction, customer, day, transaction_detail
 
 
 def transaction_encode(array_list):
