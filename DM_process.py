@@ -23,7 +23,6 @@ def load_dataset():
     line = f.readline()
     f.close()
     days = json.loads(line)
-    day = []
 
     print('Time-Day Information Loaded!!')
 
@@ -54,7 +53,7 @@ def load_dataset():
         transaction_detail.append(detail)
 
     print('Transactions Loaded!!')
-    return transaction, customer, day, transaction_detail
+    return transaction, products, customer, days, transaction_detail
 
 
 def transaction_encode(array_list):

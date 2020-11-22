@@ -6,7 +6,7 @@ from sklearn import tree
 from IPython.display import Image
 from mlxtend.frequent_patterns import apriori, fpgrowth, association_rules
 
-transactions, customers, days, details = DM.load_dataset()
+transactions, products, customers, days, details = DM.load_dataset()
 #print('=' * 50)
 #print(details)
 #print(days[0])
