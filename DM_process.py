@@ -47,7 +47,8 @@ def load_dataset():
     for line in lines:
         transaction.append(json.loads(line)['products'])
         detail = [product_classes[products[str(x)]['product_class_id']]['product_category'] for x in json.loads(line)['products']]
-        detail.append(days[str(json.loads(line)['time'])]['the_month'])
+        if days[str(json.loads(line)['time'])]['the_month'] == 'December':
+            detail.append(days[str(json.loads(line)['time'])]['the_month'])
         detail.append(customers[str(json.loads(line)['customer'])]['gender'])
         detail.append(str(customers[str(json.loads(line)['customer'])]['yearly_income']))
         transaction_detail.append(detail)

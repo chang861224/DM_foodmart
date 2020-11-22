@@ -1,6 +1,9 @@
 import DM_process as DM
 import numpy as np
 import pandas as pd
+import pydotplus
+from sklearn import tree
+from IPython.display import Image
 from mlxtend.frequent_patterns import apriori, fpgrowth, association_rules
 
 transactions, customers, days, details = DM.load_dataset()
@@ -80,4 +83,19 @@ for detail in details:
 
 print('Length of transaction in December:', len(December))
 print('Length of transaction not in December:', len(N_December))
+
+df1 = df
+df2 = df1['December']
+del df1['December']
+
+clf = tree.DecisionTreeClassifier()
+clf_train = clf.fit(pd.get_dummies(df1), df2)
+
+print('*' * 50)
+print('Question 5\n')
+print(tree.export_graphviz(clf_train, None))
+dot_data = tree.export_graphviz(clf_train, out_file=None, feature_names=list(df1.columns.values), class_names=['N_December', 'December'], rounded=True, filled=True)
+graph = pydotplus.graph_from_dot_data(dot_data)
+Image(graph.create_png())
+print('=' * 50)
 
